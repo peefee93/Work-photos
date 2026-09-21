@@ -21,3 +21,15 @@ test('current and longest streak for daily habit', () => {
   assert.equal(summary.current, 3);
   assert.equal(summary.longest, 3);
 });
+
+test('7-day progress does not count days before habit creation', () => {
+  const habit = {
+    id: 'h2',
+    createdDate: '2026-01-06',
+    schedule: { type: 'daily' },
+  };
+
+  const summary = calculateStreakSummary(habit, [], '2026-01-06');
+  assert.equal(summary.dueLast7, 1);
+  assert.equal(summary.completedLast7, 0);
+});

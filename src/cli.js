@@ -8,7 +8,9 @@ function parseArgs(argv) {
 
   for (const token of rest) {
     if (token.startsWith('--')) {
-      const [key, value = 'true'] = token.slice(2).split('=');
+      const separatorIndex = token.indexOf('=');
+      const key = token.slice(2, separatorIndex === -1 ? undefined : separatorIndex);
+      const value = separatorIndex === -1 ? 'true' : token.slice(separatorIndex + 1);
       flags[key] = value;
     } else {
       positionals.push(token);

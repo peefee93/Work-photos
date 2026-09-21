@@ -45,7 +45,9 @@ export function calculateStreakSummary(habit, entries, asOfDate) {
   }
 
   const lookbackStart = addDays(asOfDate, -6);
-  const dueLast7 = dueDatesBetween(habit.schedule, lookbackStart, asOfDate);
+  const effectiveLookbackStart =
+    compareDateStr(habit.createdDate, lookbackStart) > 0 ? habit.createdDate : lookbackStart;
+  const dueLast7 = dueDatesBetween(habit.schedule, effectiveLookbackStart, asOfDate);
   const completedLast7 = dueLast7.filter((d) => completedDates.has(d)).length;
 
   return {
